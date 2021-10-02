@@ -80,6 +80,7 @@ const SearchBooks = () => {
           description: bookToSave.description,
           title: bookToSave.title,
           image: bookToSave.image,
+          link: bookToSave.link,
         },
       })
 
