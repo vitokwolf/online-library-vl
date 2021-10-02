@@ -5,8 +5,8 @@ export const getMe = (token) => {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-  });
-};
+  })
+}
 
 export const createUser = (userData) => {
   return fetch('/api/users', {
@@ -15,8 +15,8 @@ export const createUser = (userData) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userData),
-  });
-};
+  })
+}
 
 export const loginUser = (userData) => {
   return fetch('/api/users/login', {
@@ -25,8 +25,8 @@ export const loginUser = (userData) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userData),
-  });
-};
+  })
+}
 
 // save book data for a logged in user
 export const saveBook = (bookData, token) => {
@@ -37,8 +37,8 @@ export const saveBook = (bookData, token) => {
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(bookData),
-  });
-};
+  })
+}
 
 // remove saved book data for a logged in user
 export const deleteBook = (bookId, token) => {
@@ -47,11 +47,11 @@ export const deleteBook = (bookId, token) => {
     headers: {
       authorization: `Bearer ${token}`,
     },
-  });
-};
+  })
+}
 
 // make a search to google books api
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
 export const searchGoogleBooks = (query) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
-};
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
+}
