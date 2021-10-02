@@ -32,6 +32,7 @@ export const SAVE_BOOK = gql`
     $description: String!
     $title: String!
     $image: String
+    $link: String
   ) {
     saveBook(
       bookId: $bookId
