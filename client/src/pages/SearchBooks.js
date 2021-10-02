@@ -8,13 +8,11 @@ import {
   Card,
   CardColumns,
 } from 'react-bootstrap'
-
-import Auth from '../utils/auth'
-import { searchGoogleBooks } from '../utils/API'
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage'
-
 import { useMutation } from '@apollo/client'
 import { SAVE_BOOK } from '../utils/mutations'
+import { searchGoogleBooks } from '../utils/API'
+import Auth from '../utils/auth'
+import { saveBookIds, getSavedBookIds } from '../utils/localStorage'
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -25,7 +23,7 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds())
 
-  // create state to save book
+  // executing mutation hook for saving book
   const [saveBook] = useMutation(SAVE_BOOK)
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
@@ -50,7 +48,6 @@ const SearchBooks = () => {
       }
 
       const { items } = await response.json()
-
       const bookData = items.map((book) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
@@ -73,6 +70,7 @@ const SearchBooks = () => {
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId)
 
     try {
+      // const response = await saveBook(bookToSave, token);
       await saveBook({
         variables: {
           bookId: bookToSave.bookId,
@@ -139,11 +137,9 @@ const SearchBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className="small">Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
-                  <Card.Text>
-                    <a href={book.link} target="blank">
-                      View Book
-                    </a>
-                  </Card.Text>
+                  <Card.Link href={book.link} target="_blank">
+                    View Book
+                  </Card.Link>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedBookIds?.some(

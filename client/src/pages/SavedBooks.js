@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Jumbotron,
   Container,
@@ -6,16 +6,27 @@ import {
   Card,
   Button,
 } from 'react-bootstrap'
-
-import Auth from '../utils/auth'
-import { removeBookId } from '../utils/localStorage'
 import { useQuery, useMutation } from '@apollo/client'
 import { QUERY_ME } from '../utils/queries'
 import { REMOVE_BOOK } from '../utils/mutations'
+import Auth from '../utils/auth'
+import { removeBookId } from '../utils/localStorage'
 
 const SavedBooks = () => {
-  const { loading, data: userData } = useQuery(QUERY_ME)
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK)
+  const { loading, data } = useQuery(QUERY_ME)
+  const [removeBook] = useMutation(REMOVE_BOOK)
+
+  const userData = data?.me || {}
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (!userData?.username) {
+    return (
+      <h4>You must be logged in to view this page. Please login or sign up.</h4>
+    )
+  }
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -37,11 +48,6 @@ const SavedBooks = () => {
     }
   }
 
-  // if data isn't here yet, say so
-  if (loading) {
-    return <h2>LOADING...</h2>
-  }
-
   return (
     <>
       <Jumbotron fluid className="text-light bg-dark">
@@ -51,14 +57,14 @@ const SavedBooks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userData.me.savedBooks.length
-            ? `Viewing ${userData.me.savedBooks.length} saved ${
-                userData.me.savedBooks.length === 1 ? 'book' : 'books'
+          {userData.savedBooks.length
+            ? `Viewing ${userData.savedBooks.length} saved ${
+                userData.savedBooks.length === 1 ? 'book' : 'books'
               }:`
             : 'You have no saved books!'}
         </h2>
         <CardColumns>
-          {userData.me.savedBooks.map((book) => {
+          {userData.savedBooks.map((book) => {
             return (
               <Card key={book.bookId} border="dark">
                 {book.image ? (
