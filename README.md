@@ -11,7 +11,7 @@ The application is a tool used to search for books using Google's book search AP
 - [Technologies](#technologies)
 - [Contact](#contact)
 
-![Screenshot](assets/screenshot.PNG)
+![Screenshot](./assets/screenshot.PNG)
 
 Live: https://vast-tor-86568.herokuapp.com/
 
